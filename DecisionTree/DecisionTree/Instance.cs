@@ -9,10 +9,11 @@ namespace DecisionTree
     class Instance
     {
         string text;
-        Result? result;
+        Result result;
         Dictionary<int, bool> Attributes;
 
-        public Instance(string Text, Result? Result)
+        //represents an spam or ham message including results and the attributes defined in the analyzer
+        public Instance(string Text, Result Result)
         {
             text = Text;
             result = Result;
@@ -27,7 +28,7 @@ namespace DecisionTree
             }
         }
 
-        public Result? Result
+        public Result Result
         {
             get
             {
@@ -35,6 +36,7 @@ namespace DecisionTree
             }
         }
 
+        //returns the value of the attribute discribed by i
         public bool this[int i]
         {
             get
@@ -44,7 +46,8 @@ namespace DecisionTree
             }
         }
 
-        public int Count
+        //returns the number of attributes
+        public int AttributeCount
         {
             get
             {

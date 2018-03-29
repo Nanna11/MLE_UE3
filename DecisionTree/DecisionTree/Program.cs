@@ -12,9 +12,9 @@ namespace DecisionTree
         {
             Tree t = new Tree("SMSSpamCollection");
 
-            Instance i = new Instance("AAAA XXX Free 0890", Result.notdefined);
+            Instance i = new Instance("068790", Result.notdefined);
             Console.WriteLine(t.Classify(i));
-            t.Test();
+            t.Test(10);
             Console.ReadKey();
         }
     }

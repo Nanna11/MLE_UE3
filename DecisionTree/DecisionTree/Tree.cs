@@ -15,6 +15,7 @@ namespace DecisionTree
 
         public Tree(string filename)
         {
+            //read all instances from a file
             string deploypath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string filepath = Path.Combine(deploypath, filename);
             FileStream file = new FileStream(filepath, FileMode.Open);
@@ -28,12 +29,14 @@ namespace DecisionTree
                 instances.Add(new Instance(result[1], (Result)System.Enum.Parse(typeof(Result), result[0])));
             }
 
+            //initialize a list with numbers of all attributes
             List<int> attributes = new List<int>();
-            for(int i = 0; i < instances[0].Count; i++)
+            for(int i = 0; i < instances[0].AttributeCount; i++)
             {
                 attributes.Add(i);
             }
 
+            //make first node of tree
             node = new Node(instances, attributes);
         }
 
@@ -42,17 +45,31 @@ namespace DecisionTree
             return node.Classify(i);
         }
 
-        public void Test()
+        public void Test(int kfc)
         {
+            int[,] Confusion = new int[3, 3];
+            //get kfc packages
+            List<List<Instance>> packages = new List<List<Instance>>();
+            for(int i = 0; i < kfc; i++)
+            {
+                packages.Add(new List<Instance>());
+            }
+
+            //divide instances into packages
+            for(int i = 0; i < instances.Count; i++)
+            {
+                packages[i % kfc].Add(instances[i]);
+            }
+
+            //test for every package
+            for(int i = 0; i < kfc; i++)
+            {
+                TestPackage(i, packages, Confusion);
+            }
+
+            //print confusion matrix
             double sum = 0;
             double correct = 0;
-            int[,] Confusion = new int[3, 3];
-
-            foreach(Instance i in instances)
-            {
-                Result? res = Classify(i);
-                Confusion[(int)i.Result, (int)res]++;
-            }
 
             Console.WriteLine("\nConfusion Matrix:");
             for (int i = 0; i < 3; i++)
@@ -71,6 +88,34 @@ namespace DecisionTree
             //calculate accuracy
             double acc = correct / sum;
             Console.WriteLine("Accuracy: {0}", acc);
+        }
+
+        void TestPackage(int i, List<List<Instance>> packages, int[,] Confusion)
+        {
+            //create lists for learn and test data
+            List<Instance> ToTest = packages[i];
+            List<Instance> ToLearn = new List<Instance>();
+            for(int j = 0; j < packages.Count; j++)
+            {
+                if (j == i) continue;
+                ToLearn = ToLearn.Concat<Instance>(packages[j]).ToList<Instance>();
+            }
+
+            //create list of attributes
+            List<int> attributes = new List<int>();
+            for (int j = 0; j < ToLearn[0].AttributeCount; j++)
+            {
+                attributes.Add(j);
+            }
+
+            //new node only with learning data
+            Node node = new Node(ToLearn, attributes);
+            //test each instance from test package
+            foreach (Instance instance in ToTest)
+            {
+                Result? res = Classify(instance);
+                Confusion[(int)instance.Result, (int)res]++;
+            }
         }
         
     }

@@ -9,8 +9,8 @@ namespace DecisionTree
 {
     class Analyzer
     {
-        int count = 0;
-
+        //analyzes the text an returns a dictionary with ascending, ongoing numbers of attributes and
+        //correspoding bool indicating if attribute is true or false
         public static Dictionary<int, bool> Analyze(string text)
         {
             Dictionary<int, bool> Attributes = new Dictionary<int, bool>();
@@ -27,30 +27,35 @@ namespace DecisionTree
             return Attributes;
         }
 
+        //analyzes if text contains substring "xxx" - upper/lowercase is not considered
         static bool XXX(string text)
         {
             if (text.ToLower().Contains("xxx")) return true;
             else return false;
         }
 
+        //analyzes if text contains substring "free" - upper/lowercase is not considered
         static bool Free(string text)
         {
             if (text.ToLower().Contains("free")) return true;
             else return false;
         }
 
+        //analyzes if text contains apostrophes
         static bool Apostrophe(string text)
         {
             if (text.ToLower().Contains("'")) return true;
             else return false;
         }
 
+        //analyzes if text contains the "£" symbol
         static bool Pound(string text)
         {
             if (text.ToLower().Contains("£")) return true;
             else return false;
         }
 
+        //analyzes if text contains a word with two or more uppercase letters in a row
         static bool Uppercase(string text)
         {
             string regex = @"(\b*[A-Z][A-Z]*\b)";
@@ -59,12 +64,14 @@ namespace DecisionTree
             else return false;
         }
 
+        //analyzes if text contains substring "www" - upper/lowercase is not considered
         static bool WWW(string text)
         {
             if (text.ToLower().Contains("www")) return true;
             else return false;
         }
 
+        //analyzes if text contains more than four numeric characters in a row
         static bool Number(string text)
         {
             string regex = @"(.*[0-9][0-9][0-9][0-9].*)";
@@ -73,6 +80,7 @@ namespace DecisionTree
             else return false;
         }
 
+        //returns the unincremented input i - then increments the reference of i by one
         static int Index(ref int i)
         {
             i = i + 1;
