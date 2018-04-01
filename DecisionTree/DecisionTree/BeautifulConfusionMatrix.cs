@@ -8,14 +8,14 @@ namespace DecisionTree
 {
     public static class BeautifulConfusionMatrix
     {
+        // getting biggest numbers of each row
         public static List<int> BiggestInRows(int[,] Confusion)
         {
             List<int> biggestOfRows = new List<int>();
             int TMPbiggest = 0;
             int rowCount = Confusion.GetLength(0);
             int columnCount = Confusion.GetLength(1);
-
-            //todo: get rowcount of Confusion Matrix and delete all countOfMatrix to then add the rowcount there
+            
             for(int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < columnCount; j++)
@@ -34,6 +34,7 @@ namespace DecisionTree
             return biggestOfRows;
         }
 
+        // adds blank spaces depending on the calculated amount
         public static void AddBlankSpaces(int[,] Confusion, int number, int column)
         {
             int amount = CalcNeededBlankSpaces(Confusion, number, column);
@@ -44,6 +45,7 @@ namespace DecisionTree
             }
         }
 
+        // calculates needed blank spaces for number
         private static int CalcNeededBlankSpaces(int[,] Confusion, int number, int column)
         {
             List<int> biggest = BiggestInRows(Confusion);

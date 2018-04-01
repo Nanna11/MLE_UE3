@@ -18,26 +18,34 @@ namespace DecisionTree
             //read all instances from a file
             string deploypath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string filepath = Path.Combine(deploypath, filename);
-            FileStream file = new FileStream(filepath, FileMode.Open);
-            StreamReader sr = new StreamReader(file);
 
-            instances = new List<Instance>();
-            string f;
-            while ((f = sr.ReadLine()) != null)
+            if (File.Exists(filepath))
             {
-                string[] result = f.Split("\t".ToArray<char>());
-                instances.Add(new Instance(result[1], (Result)System.Enum.Parse(typeof(Result), result[0])));
-            }
+                FileStream file = new FileStream(filepath, FileMode.Open);
+                StreamReader sr = new StreamReader(file);
 
-            //initialize a list with numbers of all attributes
-            List<int> attributes = new List<int>();
-            for(int i = 0; i < instances[0].AttributeCount; i++)
+                instances = new List<Instance>();
+                string f;
+                while ((f = sr.ReadLine()) != null)
+                {
+                    string[] result = f.Split("\t".ToArray<char>());
+                    instances.Add(new Instance(result[1], (Result)System.Enum.Parse(typeof(Result), result[0])));
+                }
+
+                //initialize a list with numbers of all attributes
+                List<int> attributes = new List<int>();
+                for (int i = 0; i < instances[0].AttributeCount; i++)
+                {
+                    attributes.Add(i);
+                }
+
+                //make first node of tree
+                node = new Node(instances, attributes);
+            }
+            else
             {
-                attributes.Add(i);
+                throw new FileNotFoundException("File could not be found!", filename);
             }
-
-            //make first node of tree
-            node = new Node(instances, attributes);
         }
 
         public Result? Classify(Instance i)
