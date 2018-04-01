@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
+    <Compile Include="BeautifulConfusionMatrix.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Instance.cs" />

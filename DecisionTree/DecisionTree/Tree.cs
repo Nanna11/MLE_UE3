@@ -59,7 +59,9 @@ namespace DecisionTree
             {
                 for (int j = 0; j < 3; j++)
                 {
+                    BeautifulConfusionMatrix.AddBlankSpaces(Confusion, Confusion[i, j], j);
                     Console.Write("{0} ", Confusion[i, j]);
+                    
                     //add to correct count if actual and calculated result were the same
                     if (i == j) correct += Confusion[i, j];
                     sum += Confusion[i, j];
