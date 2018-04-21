@@ -47,7 +47,7 @@ namespace DecisionTree
 
         public void Test(int kfc)
         {
-            int[,] Confusion = new int[3, 3];
+            int[,] Confusion = new int[2, 2];
             //get kfc packages
             List<List<Instance>> packages = new List<List<Instance>>();
             for(int i = 0; i < kfc; i++)
@@ -72,9 +72,9 @@ namespace DecisionTree
             double correct = 0;
 
             Console.WriteLine("\nConfusion Matrix:");
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 2; j++)
                 {
                     Console.Write("{0} ", Confusion[i, j]);
                     //add to correct count if actual and calculated result were the same

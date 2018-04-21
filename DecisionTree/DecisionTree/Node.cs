@@ -34,6 +34,7 @@ namespace DecisionTree
 
             int[] ResultWhenFalse = new int[2];
             int[] ResultWhenTrue = new int[2];
+            int[] Result = new int[2];
             List<Instance> InstancesTrue = new List<Instance>();
             List<Instance> InstancesFalse = new List<Instance>();
 
@@ -45,11 +46,13 @@ namespace DecisionTree
                 {
                     ResultWhenTrue[(int)i.Result]++;
                     InstancesTrue.Add(i);
+                    Result[(int)i.Result]++;
                 }
                 else
                 {
                     ResultWhenFalse[(int)i.Result]++;
                     InstancesFalse.Add(i);
+                    Result[(int)i.Result]++;
                 }
             }
 
@@ -101,9 +104,23 @@ namespace DecisionTree
                 else WhenTrue = (Result)0;
             }
 
-            //in case there were no instances with choosen attribute true/false
-            //NodeTrue/NodeFalse and WhenTrue/WhenFalse both stay null
-            //to indicate there was no instance while learning with this combination of attributes
+            //if there are no instances with choosen attribute being false
+            //return result that is most likely in this node in general
+            if (ResultWhenFalse[0] == 0 && ResultWhenFalse[1] == 0)
+            {
+                if (Result[0] > Result[1]) WhenFalse = (Result)0;
+                else WhenFalse = (Result)1;
+            }
+
+            //if there are no instances with choosen attribute being true
+            //return result that is most likely in this node in general
+            if (ResultWhenTrue[0] == 0 && ResultWhenTrue[1] == 0)
+            {
+                if (Result[0] > Result[1]) WhenTrue = (Result)0;
+                else WhenTrue = (Result)1;
+            }
+
+
         }
 
         //classify a given instance
@@ -112,14 +129,12 @@ namespace DecisionTree
             if (i[attribute])
             {
                 if (True != null) return True.Classify(i); //if descision cannot be made in this node
-                else if (WhenTrue != null) return WhenTrue; //if descision can be made in this node
-                else return Result.notdefined; //if there cannot be any descision made because there was no instance while learning with this combination of attributes
+                return WhenTrue; //if descision can be made in this node
             }
             else
             {
                 if (False != null) return False.Classify(i);
-                else if (WhenFalse != null) return WhenFalse;
-                else return Result.notdefined;
+                return WhenFalse;
             }
         }
 
