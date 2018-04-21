@@ -23,6 +23,7 @@ namespace DecisionTree
             Attributes.Add(Index(ref index), Uppercase(text)); //4
             Attributes.Add(Index(ref index), WWW(text)); //5
             Attributes.Add(Index(ref index), Number(text)); //6
+            Attributes.Add(Index(ref index), Length(text)); //7
 
             return Attributes;
         }
@@ -77,6 +78,12 @@ namespace DecisionTree
             string regex = @"(.*[0-9][0-9][0-9][0-9].*)";
             MatchCollection matches = Regex.Matches(text, regex);
             if (matches.Count > 0) return true;
+            else return false;
+        }
+
+        static bool Length(string text)
+        {
+            if (text.Length >= 105) return true;
             else return false;
         }
 
